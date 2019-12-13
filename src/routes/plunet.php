@@ -21,6 +21,15 @@ $config['tables']['fras_traductores']	= 'rechnungmitarbeiter';
 $config['tables']['traductor']			  = 'mitarbeiter';
 */
 
+/*
+ * System tables
+ 
+$config['tables']['cxz']   				= 'tms_comercial_x_zona';
+$config['tables']['axz']   				= 'tms_am_x_zona';
+$config['tables']['empresa_tick']		= 'tms_empresa_tick';
+*/
+
+
 // GET All Clientes
 $app->get('/api/tms/clientes', function(Request $request, Response $response){
   //$sql = "SELECT * FROM kunde";
@@ -50,7 +59,7 @@ $app->get('/api/tms/clientes', function(Request $request, Response $response){
           IDProjektbetreuer AS AMID, 
           MandantID AS PermisosID, 
           CCEmpfaengerAngebot AS CCQuote,
-          KontoFIBU AS Comptapro 
+          KontoFIBU AS Comptapro
           FROM kunde";
   try{
     $db = new db();
@@ -74,17 +83,26 @@ $app->get('/api/tms/clientes', function(Request $request, Response $response){
 $app->get('/api/tms/clientes/{id}', function(Request $request, Response $response){
   $idClient = $request->getAttribute('id');
   $sql = "SELECT 
-          KundeID AS ClientID, 
-          Aktiv AS StatusID, 
-          Vorname AS LastName, 
-          Nachname AS FirstName, 
-          IDBetreuer AS ComercialID, 
-          IDProjektbetreuer AS AMID, 
-          MandantID AS PermisosID, 
-          CCEmpfaengerAngebot AS CCQuote,
-          KontoFIBU AS Comptapro 
-          FROM kunde
-          WHERE KundeID = $idClient";
+          k.KundeID AS ClientID, 
+          k.Aktiv AS StatusID, 
+          k.Vorname AS LastName, 
+          k.Nachname AS FirstName, 
+          k.IDBetreuer AS ComercialID, 
+          k.IDProjektbetreuer AS AMID, 
+          k.MandantID AS PermisosID, 
+          k.CCEmpfaengerAngebot AS CCQuote,
+          k.KontoFIBU AS Comptapro ,
+          c.Vorname AS ComercialName, 
+          c.Nachname AS ComercialLastName,
+          c.eMail,
+          a.Vorname AS AMName, 
+          a.Nachname AS AMLastName,
+          z.Bez AS PermisosName
+          FROM      kunde k
+          LEFT JOIN mitarbeiter c ON k.IDBetreuer = c.MitarbeiterID
+          LEFT JOIN mitarbeiter a ON a.MitarbeiterID = k.IDProjektbetreuer
+			    LEFT JOIN x_mandant z   ON k.MandantID = z.MandantID
+          WHERE     k.KundeID = $idClient";
   try{
     $db = new db();
     $db = $db->conectDB();
@@ -101,11 +119,4 @@ $app->get('/api/tms/clientes/{id}', function(Request $request, Response $respons
   } catch(PDOException $err) {
     echo '{"error" : {"text":'.$err->getMessage().'}';
   }
-});
-
-// Catch-all route to serve a 404 Not Found page if none of the routes match
-// NOTE: make sure this route is defined last
-$app->map(['GET', 'POST', 'PUT', 'DELETE', 'PATCH'], '/{routes:.+}', function($req, $res) {
-  $handler = $this->notFoundHandler; // handle using the default Slim page not found handler
-  return $handler($req, $res);
 });

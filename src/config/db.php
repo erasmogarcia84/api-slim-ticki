@@ -30,3 +30,19 @@
     }
   }
   
+
+  //Base de datos SISTEMA
+  class system_db{
+    private $dbHost = 'localhost';
+    private $dbName = 'tickibdd';
+    private $dbUser = 'root';
+    private $dbPass = '';
+    // conexion
+    public function conectSystemDB(){
+      $mysqlConnect = "mysql:host=$this->dbHost;dbname=$this->dbName";
+      $dbConexion = new PDO($mysqlConnect, $this->dbUser, $this->dbPass);
+      $dbConexion->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      return $dbConexion;
+    }
+  }
+    
