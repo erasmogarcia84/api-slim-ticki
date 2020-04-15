@@ -1,48 +1,45 @@
 <?php
-/*
-  //Base de datos LOCAL
-  class db{
-    private $dbHost = 'localhost';
-    private $dbName = 'api_slim';
-    private $dbUser = 'tickadmin';
-    private $dbPass = 'password';
-    // conexion
-    public function conectDB(){
-      $mysqlConnect = "mysql:host=$this->dbHost;dbname=$this->dbName";
-      $dbConexion = new PDO($mysqlConnect, $this->dbUser, $this->dbPass);
-      $dbConexion->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      return $dbConexion;
-    }
-  }
-*/
-  //Base de datos PLUNET
-  class db{
-    private $dbHost = '192.168.30.50';
-    private $dbName = 'plunet';
-    private $dbUser = 'TickIrd';
-    private $dbPass = 'XG0rZvTVU9';
-    // conexion
-    public function conectDB(){
-      $mysqlConnect = "mysql:host=$this->dbHost;dbname=$this->dbName";
-      $dbConexion = new PDO($mysqlConnect, $this->dbUser, $this->dbPass);
-      $dbConexion->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      return $dbConexion;
-    }
-  }
-  
 
   //Base de datos SISTEMA
   class system_db{
-    private $dbHost = 'localhost';
-    private $dbName = 'tickibdd';
-    private $dbUser = 'root';
-    private $dbPass = '';
+    private $dbSystemHost = 'localhost';
+    private $dbSystemName = 'tickibdd';
+    private $dbSystemUser = 'root';
+    private $dbSystemPass = '';
     // conexion
     public function conectSystemDB(){
-      $mysqlConnect = "mysql:host=$this->dbHost;dbname=$this->dbName";
-      $dbConexion = new PDO($mysqlConnect, $this->dbUser, $this->dbPass);
-      $dbConexion->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      return $dbConexion;
+      $mysqlConnectSystem = "mysql:host=$this->dbSystemHost;dbname=$this->dbSystemName";
+      $dbConexionSystem = new PDO($mysqlConnectSystem, $this->dbSystemUser, $this->dbSystemPass);
+      $dbConexionSystem->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      return $dbConexionSystem;
     }
   }
+
+  //Base de datos PLUNET
+  class db{
+
+    // Old Plunet SERVER 
+    /*
+    private $dbPlunetHost = '192.168.30.50';
+    private $dbPlunetName = 'plunet';
+    private $dbPlunetUser = '';
+    private $dbPlunetPass = '';
+    */
+
+    // New Plunet SERVER 
+
+    private $dbPlunetHost = '10.10.10.132';
+    private $dbPlunetName = 'plunet';
+    private $dbPlunetUser = '';
+    private $dbPlunetPass = '';
+
+    // conexion
+    public function conectDB(){
+      $mysqlConnectPlunet = "mysql:host=$this->dbPlunetHost;dbname=$this->dbPlunetName";
+      $dbConexionPlunet = new PDO($mysqlConnectPlunet, $this->dbPlunetUser, $this->dbPlunetPass);
+      $dbConexionPlunet->SetAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      return $dbConexionPlunet;
+    }
+  }
+
     
